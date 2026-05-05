@@ -13,12 +13,22 @@ public class CalculatorController {
     }
 
     @GetMapping("/add")
-    public int addTwoNumbers(CalculatorAddRequest request){
+    public int addTwoNumbers(CalculatorRequest request) {
         return calculatorService.add(request.getNumber1(), request.getNumber2());
     }
 
+    @GetMapping("/subtract")
+    public int subtractTwoNumbers(CalculatorRequest request) {
+        return calculatorService.subtract(request.getNumber1(), request.getNumber2());
+    }
+
     @PostMapping("/multiply")
-    public int multiplyTwoNumbers(@RequestBody CalculatorMultiplyRequest request){
+    public int multiplyTwoNumbers(@RequestBody CalculatorRequest request) {
         return calculatorService.multiply(request.getNumber1(), request.getNumber2());
+    }
+
+    @PostMapping("/divide")
+    public int divideTwoNumbers(@RequestBody CalculatorRequest request) {
+        return calculatorService.divide(request.getNumber1(), request.getNumber2());
     }
 }
