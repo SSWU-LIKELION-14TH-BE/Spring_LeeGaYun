@@ -1,4 +1,4 @@
-package org.example.session222;
+package org.example.session222.w5;
 
 public class CalculatorRequest {
     private int number1;
