@@ -27,4 +27,8 @@ public class User {
     // 이름
     @Column(name = "profile_image", length = 1000)
     private String profileImage; // 프로필 사진
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
 }

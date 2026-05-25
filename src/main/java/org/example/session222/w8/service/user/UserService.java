@@ -1,6 +1,6 @@
 package org.example.session222.w8.service.user;
 import org.example.session222.w8.dto.user.responseDto.UserMeResponseDto;
-
+import org.example.session222.w8.dto.user.requestDto.UserPasswordChangeRequestDto;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -79,5 +79,22 @@ public class UserService implements UserDetailsService {
                 .name(user.getName())
                 .profileImage(user.getProfileImage())
                 .build();
+    }
+
+    @Transactional
+    public void changePassword(String email, UserPasswordChangeRequestDto requestDto) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다."));
+
+        if (!passwordEncoder.matches(requestDto.getCurrentPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        if (!requestDto.getNewPassword().equals(requestDto.getConfirmPassword())) {
+            throw new IllegalArgumentException("새 비밀번호 확인이 일치하지 않습니다.");
+        }
+
+        String encodedNewPassword = passwordEncoder.encode(requestDto.getNewPassword());
+        user.changePassword(encodedNewPassword);
     }
 }

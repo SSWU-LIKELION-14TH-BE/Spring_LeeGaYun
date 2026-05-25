@@ -1,4 +1,5 @@
 package org.example.session222.w8.controller;
+import org.example.session222.w8.dto.user.requestDto.UserPasswordChangeRequestDto;
 
 import lombok.AllArgsConstructor;
 import org.example.session222.w8.dto.user.requestDto.UserLoginRequestDto;
@@ -35,5 +36,16 @@ public class UserController {
 
         UserMeResponseDto response = userService.getMyInfo(email);
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<String> changePassword(
+            Authentication authentication,
+            @RequestBody UserPasswordChangeRequestDto requestDto
+    ) {
+        String email = authentication.getName();
+        userService.changePassword(email, requestDto);
+
+        return ResponseEntity.ok("비밀번호 변경 성공!");
     }
 }
