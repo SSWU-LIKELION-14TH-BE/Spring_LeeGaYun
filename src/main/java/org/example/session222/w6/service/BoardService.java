@@ -8,6 +8,7 @@ import org.example.session222.w6.entity.Board;
 import org.example.session222.w6.repository.BoardRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 @Slf4j
 public class BoardService {
     private final BoardRepository boardRepository;
+    private final S3Service s3Service;
 
     // 들어온 boardId 값과 db의 boardId 값이 일치하는 row 가져오기
     public Optional<Board> getBoard(Long boardId) {
@@ -49,5 +51,21 @@ public class BoardService {
     @Transactional
     public void deleteBoard(Long boardId) {
         boardRepository.deleteById(boardId);
+    }
+
+    @Transactional
+    public void ImageBoard(BoardDTO request) throws IOException {
+
+        String savedImageURI = s3Service.upload(request.getImage());
+
+        Board board = Board.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .writer(request.getWriter())
+                .image(savedImageURI)
+                .build();
+
+        boardRepository.save(board);
+
     }
 }

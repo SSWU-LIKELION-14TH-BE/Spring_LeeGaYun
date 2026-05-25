@@ -33,6 +33,9 @@ public class Board {
     // 날짜만 표시, 시간 X
     private LocalDate postDate;
 
+    @Column
+    private String image;
+
     @PrePersist
 // ipa의 콜백 메서드, 엔티티가 처음 저장되기 직전에 실행 즉, 새로운 row 생성
     protected void onCreate() { this.postDate = LocalDate.now(); }
