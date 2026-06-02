@@ -1,0 +1,10 @@
+package org.example.session222.w9.test.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class TestResponse {
+    private String message;
+}
